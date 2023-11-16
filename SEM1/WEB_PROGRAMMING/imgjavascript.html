@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hover Event Example</title>
+    <style>
+        .hover-content {
+            display: none;
+            text-align: center;
+            margin-top: 20px;
+        }
+
+        .hovered {
+            color: blue;
+            cursor: pointer;
+        }
+    </style>
+</head>
+
+<body>
+    <h1 class="hovered">Hover Over This Text!</h1>
+    <div class="hover-content">
+        <img src="index.jpeg" alt="New Image">
+        <p>This is new content that appears when you hover over the text.</p>
+    </div>
+
+    <script>
+        // Get the elements by their class names
+        var hoverText = document.querySelector('.hovered');
+        var hoverContent = document.querySelector('.hover-content');
+
+        // Event listener for mouseover event
+        hoverText.addEventListener('mouseover', function () {
+            // Display the hidden content
+            hoverContent.style.display = 'block';
+        });
+
+        // Event listener for mouseout event
+        hoverText.addEventListener('mouseout', function () {
+            // Hide the content when the mouse moves away
+            hoverContent.style.display = 'none';
+        });
+    </script>
+</body>
+
+</html>
+
