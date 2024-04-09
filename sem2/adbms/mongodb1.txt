@@ -1,0 +1,60 @@
+> use Employee
+switched to db Employee
+> db.createCollection("EMPL")
+{ "ok" : 1 }
+> db.EMPL.insertMany([
+... {"Empno":1,"Name":"John Doe","Salary":60000,"Role":"Manager"},
+... {"Empno":2,"Name":"Alice Smith","Salary":50000,"Role":"Developer"},
+... {"Empno":3,"Name":"Peter Parker","Salary":70000,"Role":"Team Lead"}])
+{
+	"acknowledged" : true,
+	"insertedIds" : [
+		ObjectId("66150e2aeebc661bfce0b8e0"),
+		ObjectId("66150e2aeebc661bfce0b8e1"),
+		ObjectId("66150e2aeebc661bfce0b8e2")
+	]
+}
+> db.EMPL.find().pretty()
+{
+	"_id" : ObjectId("66150e2aeebc661bfce0b8e0"),
+	"Empno" : 1,
+	"Name" : "John Doe",
+	"Salary" : 60000,
+	"Role" : "Manager"
+}
+{
+	"_id" : ObjectId("66150e2aeebc661bfce0b8e1"),
+	"Empno" : 2,
+	"Name" : "Alice Smith",
+	"Salary" : 50000,
+	"Role" : "Developer"
+}
+{
+	"_id" : ObjectId("66150e2aeebc661bfce0b8e2"),
+	"Empno" : 3,
+	"Name" : "Peter Parker",
+	"Salary" : 70000,
+	"Role" : "Team Lead"
+}
+> db.EMPL.find({"Role":"Manager"}).pretty()
+{
+	"_id" : ObjectId("66150e2aeebc661bfce0b8e0"),
+	"Empno" : 1,
+	"Name" : "John Doe",
+	"Salary" : 60000,
+	"Role" : "Manager"
+}
+> db.EMPL.updateOne(
+... {"Name":"Alice Smith"},
+... {$set:{"Salary":55000}})
+{ "acknowledged" : true, "matchedCount" : 1, "modifiedCount" : 1 }
+> db.EMPL.find({"Name":"Alice Smith"}).pretty()
+{
+	"_id" : ObjectId("66150e2aeebc661bfce0b8e1"),
+	"Empno" : 2,
+	"Name" : "Alice Smith",
+	"Salary" : 55000,
+	"Role" : "Developer"
+}
+> 
+
