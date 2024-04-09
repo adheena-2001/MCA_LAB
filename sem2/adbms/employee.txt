@@ -1,0 +1,122 @@
+mysql> create table employee(empid int,name varchar(20),gender varchar(20),department varchar(20),education varchar(20),moj varchar(20),salary
+int);
+Query OK, 0 rows affected (0.72 sec)
+
+mysql> insert into employee values(1001,'Ajay','M','Engineering','Doctoral','January',25);
+Query OK, 1 row affected (0.10 sec)
+
+mysql> insert into employee values(1002,'Babloo','M','Engineering','UG','February',23);
+Query OK, 1 row affected (0.07 sec)
+
+mysql> insert into employee values(1003,'Chhavi','F','HR','PG','March',15);
+Query OK, 1 row affected (0.03 sec)
+
+mysql> insert into employee values(1004,'Dheeraj','M','HR','UG','January',12);
+Query OK, 1 row affected (0.03 sec)
+
+mysql> insert into employee values(1005,'Evina','F','Marketing','UG','March',16);
+Query OK, 1 row affected (0.04 sec)
+
+mysql> select * from employee;
++-------+---------+--------+-------------+-----------+----------+--------+
+| empid | name    | gender | department  | education | moj      | salary |
++-------+---------+--------+-------------+-----------+----------+--------+
+|  1001 | Ajay    | M      | Engineering | Doctoral  | January  |     25 |
+|  1002 | Babloo  | M      | Engineering | UG        | February |     23 |
+|  1003 | Chhavi  | F      | HR          | PG        | March    |     15 |
+|  1004 | Dheeraj | M      | HR          | UG        | January  |     12 |
+|  1005 | Evina   | F      | Marketing   | UG        | March    |     16 |
++-------+---------+--------+-------------+-----------+----------+--------+
+5 rows in set (0.02 sec)
+
+mysql> select department,SUM(salary) from employee group by department;
++-------------+-------------+
+| department  | SUM(salary) |
++-------------+-------------+
+| Engineering |          48 |
+| HR          |          27 |
+| Marketing   |          16 |
++-------------+-------------+
+3 rows in set (0.12 sec)
+
+mysql> select department,SUM(salary) from employee group by department having SUM(salary)>=20;
++-------------+-------------+
+| department  | SUM(salary) |
++-------------+-------------+
+| Engineering |          48 |
+| HR          |          27 |
++-------------+-------------+
+2 rows in set (0.02 sec)
+
+mysql> select distinct department from employee;
++-------------+
+| department  |
++-------------+
+| Engineering |
+| HR          |
+| Marketing   |
++-------------+
+3 rows in set (0.00 sec)
+
+mysql> select COUNT(salary) from employee;
++---------------+
+| COUNT(salary) |
++---------------+
+|             5 |
++---------------+
+1 row in set (0.02 sec)
+
+mysql> select * from employee where department='Engineering' and education='Doctoral';
++-------+------+--------+-------------+-----------+---------+--------+
+| empid | name | gender | department  | education | moj     | salary |
++-------+------+--------+-------------+-----------+---------+--------+
+|  1001 | Ajay | M      | Engineering | Doctoral  | January |     25 |
++-------+------+--------+-------------+-----------+---------+--------+
+1 row in set (0.00 sec)
+
+mysql> select * from employee where department='Engineering' or education='Doctoral';
++-------+--------+--------+-------------+-----------+----------+--------+
+| empid | name   | gender | department  | education | moj      | salary |
++-------+--------+--------+-------------+-----------+----------+--------+
+|  1001 | Ajay   | M      | Engineering | Doctoral  | January  |     25 |
+|  1002 | Babloo | M      | Engineering | UG        | February |     23 |
++-------+--------+--------+-------------+-----------+----------+--------+
+2 rows in set (0.01 sec)
+
+mysql> select name as first_name,education as qualification from employee;
++------------+---------------+
+| first_name | qualification |
++------------+---------------+
+| Ajay       | Doctoral      |
+| Babloo     | UG            |
+| Chhavi     | PG            |
+| Dheeraj    | UG            |
+| Evina      | UG            |
++------------+---------------+
+5 rows in set (0.00 sec)
+
+mysql> select * from employee where name like 'A%';
++-------+------+--------+-------------+-----------+---------+--------+
+| empid | name | gender | department  | education | moj     | salary |
++-------+------+--------+-------------+-----------+---------+--------+
+|  1001 | Ajay | M      | Engineering | Doctoral  | January |     25 |
++-------+------+--------+-------------+-----------+---------+--------+
+1 row in set (0.02 sec)
+
+mysql> select department,sum(salary) from employee where education <> 'UG' group by department having sum(salary)>=20;
++-------------+-------------+
+| department  | sum(salary) |
++-------------+-------------+
+| Engineering |          25 |
++-------------+-------------+
+1 row in set (0.00 sec)
+
+mysql> select department,sum(salary) from employee group by department having sum(salary)>=15 order by sum(salary) desc;
++-------------+-------------+
+| department  | sum(salary) |
++-------------+-------------+
+| Engineering |          48 |
+| HR          |          27 |
+| Marketing   |          16 |
++-------------+-------------+
+3 rows in set (0.02 sec)

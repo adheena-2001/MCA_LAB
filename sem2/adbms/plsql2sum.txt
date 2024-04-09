@@ -1,0 +1,19 @@
+mysql>  delimiter //
+mysql> create procedure `sum1`(IN a INT,IN b INT)
+    -> begin
+    -> declare c int;
+    -> set c=a+b;
+    -> select concat('Sum of two numbers=',c)as result;
+    -> end //
+Query OK, 0 rows affected (0.00 sec)
+
+mysql> delimiter ;
+mysql> call `sum1`(5,10);
++-----------------------+
+| result                |
++-----------------------+
+| Sum of two numbers=15 |
++-----------------------+
+1 row in set (0.02 sec)
+
+Query OK, 0 rows affected (0.02 sec)

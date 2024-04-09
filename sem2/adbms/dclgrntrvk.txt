@@ -1,0 +1,122 @@
+ mysql -u root -p
+Enter password: 
+mysql> create database employee;
+Query OK, 1 row affected (0.00 sec)
+
+mysql> use employee;
+Database changed
+mysql> create table emp(empid int primary key,empname text not null,empadd text
+not null,emp_phn text not null,deptid text not null,dept text not null,salary text not null);
+Query OK, 0 rows affected (0.26 sec)
+mysql> insert into emp values(1,'Ramesh','GNoida','9843002178','2351','Sales','26000');
+Query OK, 1 row affected (0.05 sec)
+
+mysql> insert into emp values(2,'Suresh','GNoida','9843535678','0072','Sales','75000');
+Query OK, 1 row affected (0.04 sec)
+
+mysql> insert into emp values(3,'Rajesh','GNoida','9842546567','2324','Sales','28000');
+Query OK, 1 row affected (0.04 sec)
+
+mysql> insert into emp values(4,'Shyamu','GNoida','9842565765','8883','Sales','35000');
+Query OK, 1 row affected (0.03 sec)
+
+mysql> insert into emp values(5,'Ramu','GNoida','9842592085','74568','Sales','96000');
+Query OK, 1 row affected (0.04 sec)
+mysql> select * from employee;
+ERROR 1146 (42S02): Table 'employee.employee' doesn't exist
+mysql> select * from emp;
++-------+---------+--------+------------+--------+-------+--------+
+| empid | empname | empadd | emp_phn    | deptid | dept  | salary |
++-------+---------+--------+------------+--------+-------+--------+
+|     1 | Ramesh  | GNoida | 9843002178 | 2351   | Sales | 26000  |
+|     2 | Suresh  | GNoida | 9843535678 | 0072   | Sales | 75000  |
+|     3 | Rajesh  | GNoida | 9842546567 | 2324   | Sales | 28000  |
+|     4 | Shyamu  | GNoida | 9842565765 | 8883   | Sales | 35000  |
+|     5 | Ramu    | GNoida | 9842592085 | 74568  | Sales | 96000  |
++-------+---------+--------+------------+--------+-------+--------+
+5 rows in set (0.00 sec)
+
+mysql> create user 'sandy' identified by 'sandy01';
+Query OK, 0 rows affected (0.00 sec)
+
+mysql> grant all on employee to sandy;
+Query OK, 0 rows affected (0.00 sec)
+
+mysql> show grants for sandy;
++--------------------------------------------------------------+
+| Grants for sandy@%                                           |
++--------------------------------------------------------------+
+| GRANT USAGE ON *.* TO 'sandy'@'%'                            |
+| GRANT ALL PRIVILEGES ON `employee`.`employee` TO 'sandy'@'%' |
++--------------------------------------------------------------+
+2 rows in set (0.00 sec)
+
+mysql> quit
+Bye
+lab2@lab2-OptiPlex-380:~$ mysql -u sandy -p
+Enter password: 
+mysql> use employee;
+Database changed
+mysql> show databases;
++--------------------+
+| Database           |
++--------------------+
+| information_schema |
+| employee           |
++--------------------+
+2 rows in set (0.00 sec)
+mysql> select * from emp;
++-------+---------+--------+------------+--------+-------+--------+
+| empid | empname | empadd | emp_phn    | deptid | dept  | salary |
++-------+---------+--------+------------+--------+-------+--------+
+|     1 | Ramesh  | GNoida | 9843002178 | 2351   | Sales | 26000  |
+|     2 | Suresh  | GNoida | 9843535678 | 0072   | Sales | 75000  |
+|     3 | Rajesh  | GNoida | 9842546567 | 2324   | Sales | 28000  |
+|     4 | Shyamu  | GNoida | 9842565765 | 8883   | Sales | 35000  |
+|     5 | Ramu    | GNoida | 9842592085 | 74568  | Sales | 96000  |
++-------+---------+--------+------------+--------+-------+--------+
+5 rows in set (0.00 sec)
+
+mysql> update emp set empname='Damu' where empid=5;
+Query OK, 1 row affected (0.07 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
+
+mysql> select * from emp;
++-------+---------+--------+------------+--------+-------+--------+
+| empid | empname | empadd | emp_phn    | deptid | dept  | salary |
++-------+---------+--------+------------+--------+-------+--------+
+|     1 | Ramesh  | GNoida | 9843002178 | 2351   | Sales | 26000  |
+|     2 | Suresh  | GNoida | 9843535678 | 0072   | Sales | 75000  |
+|     3 | Rajesh  | GNoida | 9842546567 | 2324   | Sales | 28000  |
+|     4 | Shyamu  | GNoida | 9842565765 | 8883   | Sales | 35000  |
+|     5 | Damu    | GNoida | 9842592085 | 74568  | Sales | 96000  |
++-------+---------+--------+------------+--------+-------+--------+
+5 rows in set (0.00 sec)
+mysql -u root -p
+Enter password: 
+mysql> use employee;
+mysql> revoke all on employee from sandy;
+Query OK, 0 rows affected (0.01 sec)
+
+mysql> revoke all on emp from sandy;
+Query OK, 0 rows affected (0.00 sec)
+
+mysql> select * from emp;
++-------+---------+--------+------------+--------+-------+--------+
+| empid | empname | empadd | emp_phn    | deptid | dept  | salary |
++-------+---------+--------+------------+--------+-------+--------+
+|     1 | Ramesh  | GNoida | 9843002178 | 2351   | Sales | 26000  |
+|     2 | Suresh  | GNoida | 9843535678 | 0072   | Sales | 75000  |
+|     3 | Rajesh  | GNoida | 9842546567 | 2324   | Sales | 28000  |
+|     4 | Shyamu  | GNoida | 9842565765 | 8883   | Sales | 35000  |
+|     5 | Damu    | GNoida | 9842592085 | 74568  | Sales | 96000  |
++-------+---------+--------+------------+--------+-------+--------+
+5 rows in set (0.00 sec)
+
+mysql> quit
+Bye
+lab2@lab2-OptiPlex-380:~$ mysql -u sandy -p
+Enter password: 
+mysql> use employee;
+ERROR 1044 (42000): Access denied for user 'sandy'@'%' to database 'employee'
+mysql> 

@@ -1,0 +1,70 @@
+mysql> create table employeees( employee_id INT PRIMARY KEY, first_name VARCHAR(50), last_name VARCHAR(50), salary DECIMAL(10,2) );
+Query OK, 0 rows affected (0.68 sec)
+
+mysql> create table audit_log(
+    -> log_id int primary key auto_increment,
+    -> action varchar(255),
+    -> timestamp TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+    -> );
+Query OK, 0 rows affected (0.26 sec)
+
+mysql> insert into employeees values(1,'John','Doe',50000.00);
+    -> insert into employeees values(2,'Jane','Smith',60000.00);
+    -> insert into employeees values(3,'Micheal','Johnson',55000.00);
+
+mysql> select * from employeees;
++-------------+------------+-----------+----------+
+| employee_id | first_name | last_name | salary   |
++-------------+------------+-----------+----------+
+|           1 | John       | Doe       | 50000.00 |
+|           2 | Jane       | Smith     | 60000.00 |
+|           3 | Micheal    | Johnson   | 55000.00 |
++-------------+------------+-----------+----------+
+3 rows in set (0.00 sec)
+
+mysql> insert into audit_log(action,timestamp)
+    -> values('New employees added',current_timestamp);
+Query OK, 1 row affected (0.14 sec)
+
+mysql> select * from audit_log;
++--------+---------------------+---------------------+
+| log_id | action              | timestamp           |
++--------+---------------------+---------------------+
+|      1 | New employees added | 2024-03-26 15:23:11 |
++--------+---------------------+---------------------+
+1 row in set (0.02 sec)
+
+mysql> delimiter //
+mysql> create trigger after_employeee_insert
+    -> after insert on employeees
+    -> for each row
+    -> begin
+    -> insert into audit_log(action,timestamp)
+    -> values('New employee inserted',NOW());
+    -> end //
+Query OK, 0 rows affected (0.24 sec)
+
+mysql> delimiter ;
+
+mysql> insert into employeees values(4,'Minnu','Joseph',65000.00);
+Query OK, 1 row affected (0.10 sec)
+
+mysql> select * from employeees;
++-------------+------------+-----------+----------+
+| employee_id | first_name | last_name | salary   |
++-------------+------------+-----------+----------+
+|           1 | John       | Doe       | 50000.00 |
+|           2 | Jane       | Smith     | 60000.00 |
+|           3 | Micheal    | Johnson   | 55000.00 |
+|           4 | Minnu      | Joseph    | 65000.00 |
++-------------+------------+-----------+----------+
+4 rows in set (0.00 sec)
+
+mysql> select * from audit_log;
++--------+-----------------------+---------------------+
+| log_id | action                | timestamp           |
++--------+-----------------------+---------------------+
+|      1 | New employees added   | 2024-03-26 15:23:11 |
+|      2 | New employee inserted | 2024-03-26 15:29:50 |
++--------+-----------------------+---------------------+
+2 rows in set (0.00 sec)

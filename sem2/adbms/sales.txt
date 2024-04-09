@@ -1,0 +1,186 @@
+create table salesman(salesman_id int,name varchar(20),city varchar(20),commision varchar(20));
+Query OK, 0 rows affected (0.86 sec)
+
+mysql> insert into salesman values(5001,'James Hoog','New York',0.15);
+Query OK, 1 row affected (0.17 sec)
+
+mysql> insert into salesman values(5002,'Nail Knite','Paris',0.13);
+Query OK, 1 row affected (0.04 sec)
+
+mysql> insert into salesman values(5003,'Pit Alex','London',0.11);
+Query OK, 1 row affected (0.03 sec)
+
+mysql> insert into salesman values(5005,'Mc Lyon','Paris',0.14);
+Query OK, 1 row affected (0.03 sec)
+
+mysql> insert into salesman values(5006,'Paul Adam','Rome',0.13);
+Query OK, 1 row affected (0.04 sec)
+
+mysql> insert into salesman values(5007,'Lauson Hen','San Joe',0.12);
+Query OK, 1 row affected (0.04 sec)
+
+mysql> create table customer(cust_id int,cust_name varchar(20),city varchar(20),grade int,salesman_id int);
+Query OK, 0 rows affected (0.26 sec)
+
+mysql> insert into customer values(3002,'Nick Rimando','New York',100,5001);
+Query OK, 1 row affected (0.04 sec)
+
+mysql> insert into customer values(3007,'Brad Davis','New York',200,5001);
+Query OK, 1 row affected (0.04 sec)
+
+mysql> insert into customer values(3005,'Graham Zusi','California',200,5002);
+Query OK, 1 row affected (0.03 sec)
+
+mysql> insert into customer values(3008,'Julian Green','London',300,5002);
+Query OK, 1 row affected (0.04 sec)
+
+mysql> insert into customer values(3004,'Fabian Johnson','Paris',300,5006);
+Query OK, 1 row affected (0.04 sec)
+
+mysql> insert into customer values(3009,'Geoff Cameron','Berlin',100,5003);
+Query OK, 1 row affected (0.08 sec)
+
+mysql> insert into customer values(3003,'Jozy Altidor','Moscow',200,5007);
+Query OK, 1 row affected (0.03 sec)
+
+mysql> insert into customer values(3001,'Brad Guzan','London',100,5005);
+Query OK, 1 row affected (0.04 sec)
+
+mysql> select * from customer;
++---------+----------------+------------+-------+-------------+
+| cust_id | cust_name      | city       | grade | salesman_id |
++---------+----------------+------------+-------+-------------+
+|    3002 | Nick Rimando   | New York   |   100 |        5001 |
+|    3007 | Brad Davis     | New York   |   200 |        5001 |
+|    3005 | Graham Zusi    | California |   200 |        5002 |
+|    3008 | Julian Green   | London     |   300 |        5002 |
+|    3004 | Fabian Johnson | Paris      |   300 |        5006 |
+|    3009 | Geoff Cameron  | Berlin     |   100 |        5003 |
+|    3003 | Jozy Altidor   | Moscow     |   200 |        5007 |
+|    3001 | Brad Guzan     | London     |   100 |        5005 |
++---------+----------------+------------+-------+-------------+
+8 rows in set (0.00 sec)
+
+mysql> create view newyorkstaff as select * from salesman where city='New York'; 
+Query OK, 0 rows affected (0.10 sec)
+
+mysql> select * from newyorkstaff;
++-------------+------------+----------+-----------+
+| salesman_id | name       | city     | commision |
++-------------+------------+----------+-----------+
+|        5001 | James Hoog | New York | 0.15      |
++-------------+------------+----------+-----------+
+1 row in set (0.02 sec)
+
+mysql> create view gradecount(grade,number)as select grade,count(*) from cutomer group by grade;
+Query OK, 0 rows affected (0.05 sec)
+
+mysql> select * from gradecount;
++-------+--------+
+| grade | number |
++-------+--------+
+|   100 |      3 |
+|   200 |      3 |
+|   300 |      2 |
++-------+--------+
+3 rows in set (0.07 sec)
+
+mysql> create table orders(ord_no int,purch_amt float,ord_date date,cust_id int,salesman_id int);
+Query OK, 0 rows affected (0.53 sec)
+
+mysql> insert into orders values(70002,65.26,'2012-10-05',3002,5001);
+Query OK, 1 row affected (0.03 sec)
+
+mysql> insert into orders values(70004,110.5,'2012-08-17',3009,5003);
+Query OK, 1 row affected (0.03 sec)
+
+mysql> insert into orders values(70007,948.5,'2012-09-10',3005,5002);
+Query OK, 1 row affected (0.03 sec)
+
+mysql> insert into orders values(70005,2400.6,'2012-07-27',3007,5001);
+Query OK, 1 row affected (0.05 sec)
+
+mysql> insert into orders values(70008,5760,'2012-09-10',3002,5001);
+Query OK, 1 row affected (0.03 sec)
+
+mysql> insert into orders values(70010,1983.43,'2012-10-10',3009,5003);
+Query OK, 1 row affected (0.05 sec)
+
+mysql> insert into orders values(70003,2480.4,'2012-08-17',3009,5003);
+Query OK, 1 row affected (0.04 sec)
+
+mysql> insert into orders values(70012,250.45,'2012-08-17',3003,5007);
+Query OK, 1 row affected (0.03 sec)
+
+mysql> insert into orders values(70011,75.29,'2012-08-17',3008,5007);
+Query OK, 1 row affected (0.04 sec)
+
+mysql> insert into orders values(70013,3045.6,'2012-04-25',3002,5001);
+Query OK, 1 row affected (0.04 sec)
+
+mysql> select * from orders;
++--------+-----------+------------+---------+-------------+
+| ord_no | purch_amt | ord_date   | cust_id | salesman_id |
++--------+-----------+------------+---------+-------------+
+|  70001 |     105.5 | 2012-10-05 |    3005 |        5002 |
+|  70009 |     270.6 | 2012-09-10 |    3001 |        5005 |
+|  70002 |     65.26 | 2012-10-05 |    3002 |        5001 |
+|  70004 |     110.5 | 2012-08-17 |    3009 |        5003 |
+|  70007 |     948.5 | 2012-09-10 |    3005 |        5002 |
+|  70005 |    2400.6 | 2012-07-27 |    3007 |        5001 |
+|  70008 |      5760 | 2012-09-10 |    3002 |        5001 |
+|  70010 |   1983.43 | 2012-10-10 |    3009 |        5003 |
+|  70003 |    2480.4 | 2012-08-17 |    3009 |        5003 |
+|  70012 |    250.45 | 2012-08-17 |    3003 |        5007 |
+|  70011 |     75.29 | 2012-08-17 |    3008 |        5007 |
+|  70013 |    3045.6 | 2012-04-25 |    3002 |        5001 |
++--------+-----------+------------+---------+-------------+
+12 rows in set (0.01 sec)
+
+mysql> create view total_for_day as select ord_date,count(distinct cust_id),avg(purch_amt),sum(purch_amt)from orders group by ord_date;
+Query OK, 0 rows affected (0.04 sec)
+
+mysql> select * from total_for_day;
++------------+-------------------------+--------------------+--------------------+
+| ord_date   | count(distinct cust_id) | avg(purch_amt)     | sum(purch_amt)     |
++------------+-------------------------+--------------------+--------------------+
+| 2012-04-25 |                       1 |   3045.60009765625 |   3045.60009765625 |
+| 2012-07-27 |                       1 |   2400.60009765625 |   2400.60009765625 |
+| 2012-08-17 |                       3 |  729.1599750518799 | 2916.6399002075195 |
+| 2012-09-10 |                       3 |  2326.366668701172 |  6979.100006103516 |
+| 2012-10-05 |                       2 |  85.38000106811523 | 170.76000213623047 |
+| 2012-10-10 |                       1 | 1983.4300537109375 | 1983.4300537109375 |
++------------+-------------------------+--------------------+--------------------+
+6 rows in set (0.00 sec)
+
+mysql> create view Sorder as select salesman_id,ord_no,cust_id from orders where ord_date in('2012-08-17','2012-10-10');
+Query OK, 0 rows affected (0.04 sec)
+
+mysql> select * from Sorder;
++-------------+--------+---------+
+| salesman_id | ord_no | cust_id |
++-------------+--------+---------+
+|        5003 |  70004 |    3009 |
+|        5003 |  70010 |    3009 |
+|        5003 |  70003 |    3009 |
+|        5007 |  70012 |    3003 |
+|        5007 |  70011 |    3008 |
++-------------+--------+---------+
+5 rows in set (0.00 sec)
+
+mysql> create view Elitsalesman as select b.ord_date,a.salesman_id,a.name from salesman a,orders b where a.salesman_id=b.salesman_id and b.purch_amt=(select max(purch_amt)from orders c where c.ord_date=b.ord_date);
+Query OK, 0 rows affected (0.04 sec)
+
+mysql> select * from Elitsalesman;
++------------+-------------+------------+
+| ord_date   | salesman_id | name       |
++------------+-------------+------------+
+| 2012-10-05 |        5002 | Nail Knite |
+| 2012-07-27 |        5001 | James Hoog |
+| 2012-09-10 |        5001 | James Hoog |
+| 2012-10-10 |        5003 | Pit Alex   |
+| 2012-08-17 |        5003 | Pit Alex   |
+| 2012-04-25 |        5001 | James Hoog |
++------------+-------------+------------+
+6 rows in set (0.06 sec)
+
