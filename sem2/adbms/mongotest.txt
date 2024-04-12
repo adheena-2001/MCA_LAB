@@ -1,0 +1,53 @@
+> use test
+switched to db test
+> db.createCollection("student")
+{
+	"ok" : 0,
+	"errmsg" : "a collection 'test.student' already exists",
+	"code" : 48,
+	"codeName" : "NamespaceExists"
+}
+> db.student.insert({rollno:101,name:"Alex",Branch:"MCA"})
+WriteResult({ "nInserted" : 1 })
+> db.student.insert({rollno:102,name:"Maya",Branch:"MBA"})
+WriteResult({ "nInserted" : 1 })
+> db.student.insert({rollno:103,name:"Niya",Branch:"BCA"})
+WriteResult({ "nInserted" : 1 })
+> db.student.find().pretty()
+{
+	"_id" : ObjectId("66150a4beebc661bfce0b8dd"),
+	"rollno" : 101,
+	"name" : "Alex",
+	"Branch" : "MCA"
+}
+{
+	"_id" : ObjectId("66150a74eebc661bfce0b8de"),
+	"rollno" : 102,
+	"name" : "Maya",
+	"Branch" : "MBA"
+}
+{
+	"_id" : ObjectId("66150a8eeebc661bfce0b8df"),
+	"rollno" : 101,
+	"name" : "Niya",
+	"Branch" : "BCA"
+}
+{
+	"_id" : ObjectId("6618c510b689fe888d8592e9"),
+	"rollno" : 101,
+	"name" : "Alex",
+	"Branch" : "MCA"
+}
+{
+	"_id" : ObjectId("6618c523b689fe888d8592ea"),
+	"rollno" : 102,
+	"name" : "Maya",
+	"Branch" : "MBA"
+}
+{
+	"_id" : ObjectId("6618c534b689fe888d8592eb"),
+	"rollno" : 103,
+	"name" : "Niya",
+	"Branch" : "BCA"
+}
+
