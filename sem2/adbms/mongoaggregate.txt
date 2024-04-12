@@ -1,0 +1,133 @@
+> use students
+switched to db students
+> db.students.insert({name:"Tony",age:17,id:1,sec:"A",subject:["physics","maths"]})
+WriteResult({ "nInserted" : 1 })
+> db.students.insert({name:"Steve",age:37,id:2,sec:"A"})
+WriteResult({ "nInserted" : 1 })
+> db.students.insert({name:"Natasha",age:17,id:3,sec:"B",subject:["physics","english"]})
+WriteResult({ "nInserted" : 1 })
+> db.students.insert({name:"Bruce",age:21,id:4,sec:"B",subject:["physics","maths","biology","chemistry"]})
+WriteResult({ "nInserted" : 1 })
+> db.students.insert({name:"Nick",age:40,id:5,sec:"B",subject:["english"]})
+WriteResult({ "nInserted" : 1 })
+> db.students.insert({name:"Grooot",age:4,id:6,sec:"A",subject:["english"]})
+WriteResult({ "nInserted" : 1 })
+> db.students.insert({name:"Thanos",age:4,id:7,sec:"B",subject:["maths","physics","chemistry"]})
+WriteResult({ "nInserted" : 1 })
+> db.students.find().pretty()
+{
+	"_id" : ObjectId("6618c7a0b689fe888d8592ec"),
+	"name" : "Tony",
+	"age" : 17,
+	"id" : 1,
+	"sec" : "A",
+	"subject" : [
+		"physics",
+		"maths"
+	]
+}
+{
+	"_id" : ObjectId("6618c7d9b689fe888d8592ed"),
+	"name" : "Steve",
+	"age" : 37,
+	"id" : 2,
+	"sec" : "A"
+}
+{
+	"_id" : ObjectId("6618c80ab689fe888d8592ee"),
+	"name" : "Natasha",
+	"age" : 17,
+	"id" : 3,
+	"sec" : "B",
+	"subject" : [
+		"physics",
+		"english"
+	]
+}
+{
+	"_id" : ObjectId("6618c842b689fe888d8592ef"),
+	"name" : "Bruce",
+	"age" : 21,
+	"id" : 4,
+	"sec" : "B",
+	"subject" : [
+		"physics",
+		"maths",
+		"biology",
+		"chemistry"
+	]
+}
+{
+	"_id" : ObjectId("6618c86db689fe888d8592f0"),
+	"name" : "Nick",
+	"age" : 40,
+	"id" : 5,
+	"sec" : "B",
+	"subject" : [
+		"english"
+	]
+}
+{
+	"_id" : ObjectId("6618c8a9b689fe888d8592f1"),
+	"name" : "Grooot",
+	"age" : 4,
+	"id" : 6,
+	"sec" : "A",
+	"subject" : [
+		"english"
+	]
+}
+{
+	"_id" : ObjectId("6618c936b689fe888d8592f2"),
+	"name" : "Thanos",
+	"age" : 4,
+	"id" : 7,
+	"sec" : "B",
+	"subject" : [
+		"maths",
+		"physics",
+		"chemistry"
+	]
+}
+> db.students.aggregate([{$match:{sec:"B"}},{$count:"Total student in sec:B"}])
+{ "Total student in sec:B" : 4 }
+> db.students.aggregate([{$group:{_id:"$sec",total_st:{$sum:1},max_age:{$max:"$age"}}}])
+{ "_id" : "B", "total_st" : 4, "max_age" : 40 }
+{ "_id" : "A", "total_st" : 3, "max_age" : 37 }
+> db.students.aggregate([{$group:{_id:"$sec",total_st:{$sum:1},max_age:{$max:"$age"}}}]).pretty()
+{ "_id" : "B", "total_st" : 4, "max_age" : 40 }
+{ "_id" : "A", "total_st" : 3, "max_age" : 37 }
+> db.students.aggregate([{$match:{age:{$gt:30}}}]).pretty()
+{
+	"_id" : ObjectId("6618c7d9b689fe888d8592ed"),
+	"name" : "Steve",
+	"age" : 37,
+	"id" : 2,
+	"sec" : "A"
+}
+{
+	"_id" : ObjectId("6618c86db689fe888d8592f0"),
+	"name" : "Nick",
+	"age" : 40,
+	"id" : 5,
+	"sec" : "B",
+	"subject" : [
+		"english"
+	]
+}
+> db.students.aggregate([{'$sort':{'age':1}}])
+{ "_id" : ObjectId("6618c8a9b689fe888d8592f1"), "name" : "Grooot", "age" : 4, "id" : 6, "sec" : "A", "subject" : [ "english" ] }
+{ "_id" : ObjectId("6618c936b689fe888d8592f2"), "name" : "Thanos", "age" : 4, "id" : 7, "sec" : "B", "subject" : [ "maths", "physics", "chemistry" ] }
+{ "_id" : ObjectId("6618c7a0b689fe888d8592ec"), "name" : "Tony", "age" : 17, "id" : 1, "sec" : "A", "subject" : [ "physics", "maths" ] }
+{ "_id" : ObjectId("6618c80ab689fe888d8592ee"), "name" : "Natasha", "age" : 17, "id" : 3, "sec" : "B", "subject" : [ "physics", "english" ] }
+{ "_id" : ObjectId("6618c842b689fe888d8592ef"), "name" : "Bruce", "age" : 21, "id" : 4, "sec" : "B", "subject" : [ "physics", "maths", "biology", "chemistry" ] }
+{ "_id" : ObjectId("6618c7d9b689fe888d8592ed"), "name" : "Steve", "age" : 37, "id" : 2, "sec" : "A" }
+{ "_id" : ObjectId("6618c86db689fe888d8592f0"), "name" : "Nick", "age" : 40, "id" : 5, "sec" : "B", "subject" : [ "english" ] }
+> db.students.count()
+7
+> db.students.distinct("name")
+[ "Tony", "Steve", "Natasha", "Bruce", "Nick", "Grooot", "Thanos" ]
+> db.students.distinct("age")
+[ 17, 37, 21, 40, 4 ]
+
+
